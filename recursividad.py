@@ -26,8 +26,8 @@ def fib(number):
     else:
         return fib(number-1) + fib(number-2)
 
-def fib_iter(number):
-    if number == 0 or number == 1:
+def fib_iter(number):   # n
+    if number == 0 or number == 1:          
         return number
     
     result_1 = 0
@@ -50,7 +50,7 @@ def suma(number):
     else:
         return number + suma(number-1)
 
-print(suma(5))
+# print(suma(5))
 
 
 # producto(n, m) = n * producto(n, m-1) --> producto(n, m) m == 1 = n
@@ -66,4 +66,40 @@ print(suma(5))
 # print(result)
 
 
-7 * 3 = 7 + 7 + 7
+# 7 * 3 = 7 + 7 + 7
+
+
+numbers = [1, 3, 4, 5 ,6]
+
+def bus_bin_iter(array, value):
+    first = 0
+    last = len(array) -1
+    position = -1
+    while first <= last and position == -1:
+        middle = (first + last) // 2
+        if array[middle] == value:
+            position = middle
+        elif array[middle] > value:
+            last = middle -1
+        else:
+            first = middle + 1
+    
+    return position
+
+
+def bus_bin_rec(array, value, first, last):
+    middle = (first + last) // 2
+    if first >= last:
+        return -1
+    elif array[middle] == value:
+        return middle
+    else:
+        if array[middle] > value:
+            return bus_bin_rec(array, value,first, last -1)
+        else:
+            return bus_bin_rec(array, value, first+1, last)
+
+
+
+# print(bus_bin_iter(numbers, 6))
+print(bus_bin_rec(numbers, 0, 0, len(numbers)))
