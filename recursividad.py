@@ -102,4 +102,4 @@ def bus_bin_rec(array, value, first, last):
 
 
 # print(bus_bin_iter(numbers, 6))
-print(bus_bin_rec(numbers, 0, 0, len(numbers)))
+# print(bus_bin_rec(numbers, 0, 0, len(numbers)))
