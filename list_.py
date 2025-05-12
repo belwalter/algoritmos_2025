@@ -1,74 +1,71 @@
-
-class Person:
-    
-    def __init__(self, nom, ape, dni):
-        self.nom = nom
-        self.ape = ape
-        self.dni = dni
-    
-    def __str__(self):
-        return f"{self.ape}, {self.nom} - {self.dni}"
-
+from typing import Any, Optional
 
 class List(list):
-    pass
 
+    CRITERION_FUNCTIONS = {}
 
-def show(list: list):
-    for i in list:
-        print(i)
+    def add_criterion(
+        self,
+        key_criterion: str,
+        function,
+    ):
+        self.CRITERION_FUNCTIONS[key_criterion] = function
 
-def delete_value(list, key):
-    pass
+    def show(
+        self
+    ) -> None:
+        for element in self:
+            print(element)
 
-def insert_value(list, value):
-    pass
+    def delete_value(
+        self,
+        value,
+        key_value: str = None,
+    ) -> Optional[Any]:
+        index = self.search(value, key_value)
+        return self.pop(index) if index is not None else index
 
-def sort(list):
-    pass
+    # def insert_value(
+    #     self,
+    #     value: Any,
+    # ) -> None:
+    #     # list_number.append(2)
+    #     # list_number.insert(1, 11)
+    #     pass
 
-# list_number = List()
+    def sort_by_criterion(
+        self,
+        criterion_key: str = None,
+    ) -> None:
+        criterion = self.CRITERION_FUNCTIONS.get(criterion_key)
 
-people = [
-    Person(nom='Juana', ape='Gonzalez', dni=45),
-    Person(nom='Mariano', ape='Perez', dni=32),
-    Person(nom='Mariano', ape='Perez', dni=51),
-    Person(nom='Carlos', ape='Romero', dni=14),
-    Person(nom='Ana', ape='Cordoba', dni=29),
-]
+        if criterion is not None:
+            self.sort(key=criterion)
+        elif self and  isinstance(self[0], (int, str, bool)):
+            self.sort()
+        else:
+            print('criterio de orden no encontrado')
 
-list_people = List()
+    def search(
+        self,
+        search_value,
+        search_key: str = None,
+    ) -> int:
+        self.sort_by_criterion(search_key)
+        start = 0
+        end = len(self) -1
+        middle = (start + end) // 2
 
-for person in people:
-    list_people.append(person)
+        while start <= end:
+            criterion = self.CRITERION_FUNCTIONS.get(search_key)
+            if criterion is None and self and not isinstance(self[0], (int, str, bool)):
+                return None
 
-# list_number.append(2)
-# list_number.append(1)
-# list_number.append(20)
-
-# list_number.insert(1, 11)
-
-def order_by_name(item):
-    return item.nom
-
-def order_by_ape(item):
-    return item.ape
-
-def order_by_dni(item):
-    return item.dni
-
-def order_by_ape_nom(item):
-    return item.ape+item.nom
-
-list_people.sort(key=order_by_ape_nom)
-
-# deleted_value = list_people.pop(2)
-# deleted_value = list_people.remove(people[2])
-
-# print(f'deleted value: {deleted_value}')
-
-# print(type(list_number))
-# print()
-
-list_people[2].nom = 'Luke'
-show(list_people)
+            value = criterion(self[middle]) if criterion else self[middle]
+            if value == search_value:
+                return middle
+            elif value  < search_value:
+                start = middle +1
+            else:
+                end = middle -1
+            middle = (start + end) // 2
