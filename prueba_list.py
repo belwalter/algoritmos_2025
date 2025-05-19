@@ -45,16 +45,16 @@ from list_ import List
 from super_heroes_data import superheroes
 class Superhero:
     
-    def __init__(self, name, alias, real_name, short_bio, first_appearance, is_villian):
+    def __init__(self, name, alias, real_name, short_bio, first_appearance, is_villain):
         self.name = name
         self.alias = alias
         self.real_name = real_name
         self.short_bio = short_bio
         self.first_appearance = first_appearance
-        self.is_villian = is_villian
+        self.is_villain = is_villain
 
     def __str__(self):
-        return f"{self.name}, {self.real_name} - {self.is_villian}"
+        return f"{self.name}, {self.real_name} - {self.is_villain}"
 
 def order_by_name(item):
     return item.name
@@ -70,7 +70,7 @@ for superhero in superheroes:
         real_name=superhero["real_name"],
         short_bio=superhero["short_bio"],
         first_appearance=superhero["first_appearance"],
-        is_villian=superhero["is_villian"],
+        is_villain=superhero["is_villain"],
     )
     list_superhero.append(hero)
 
@@ -88,9 +88,9 @@ print()
 #C modificar Dr strage de villano a heroe
 index = list_superhero.search('Dr Strange', 'name')
 if index:
-    print(list_superhero[index].is_villian)
-    list_superhero[index].is_villian = False
-    print(list_superhero[index].is_villian)
+    print(list_superhero[index].is_villain)
+    list_superhero[index].is_villain = False
+    print(list_superhero[index].is_villain)
 else:
     print('el superheroe no esta ne la lista')
 
