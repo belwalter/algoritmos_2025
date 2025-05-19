@@ -98,7 +98,7 @@ else:
 print()
 print('superheroes con traje')
 for superhero in list_superhero:
-    if 'armor' in superhero.short_bio or 'suite' in superhero.short_bio:
+    if 'armor' in superhero.short_bio or 'suit' in superhero.short_bio:
         print(superhero)
 
 #H
