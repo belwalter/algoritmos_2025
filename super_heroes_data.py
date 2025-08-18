@@ -913,3 +913,6 @@ superheroes = [
         "is_villain": False
     },
 ]
+
+
+print(len (superheroes))
