@@ -1,5 +1,5 @@
 from typing import Any, Optional
-
+from queue_ import Queue
 
 class BinaryTree:
 
@@ -30,7 +30,7 @@ class BinaryTree:
     def pre_order(self):
         def __pre_order(root):
             if root is not None:
-                print(root.value)
+                print(root.value, root.other_values)
                 __pre_order(root.left)
                 __pre_order(root.right)
 
@@ -75,15 +75,88 @@ class BinaryTree:
             aux = __search(self.root, value)
         return aux
 
-arbol = BinaryTree()
+    def delete(self, value: Any):
+        def __replace(root):
+            if root.right is None:
+                print(f'valor para remplazar {root.value}')
+                return root.left, root
+            else:
+                root.right, replace_node = __replace(root.right)
+                return root, replace_node
 
-# arbol.insert(19)
-# arbol.insert(7)
-# arbol.insert(31)
-# arbol.insert(11)
-# arbol.insert(22)
-# arbol.insert(45)
-# arbol.insert(27)
+        def __delete(root, value):
+            delete_value = None
+            if root is not None:
+                if value < root.value:
+                    root.left, delete_value = __delete(root.left, value)
+                elif value > root.value:
+                    root.right, delete_value = __delete(root.right, value)
+                else:
+                    delete_value = root.value
+                    if root.left is None:
+                        root = root.right
+                    elif root.right is None:
+                        root.right = root.left
+                    else:
+                        root.left, replace_node = __replace(root.left)
+                        root.value = replace_node.value
+                        root.other_values = replace_node.other_values
+
+            return root, delete_value
+
+        delete_value =  None
+        if self.root is not None:
+            self.root, delete_value = __delete(self.root, value)
+            print(self.root.value, delete_value)
+        
+        return delete_value
+    
+    def by_level(self):
+        tree_queue = Queue()
+        if self.root is not None:
+            tree_queue.arrive(self.root)
+
+            while tree_queue.size() > 0:
+                node = tree_queue.attention()
+                print(node.value)
+                if node.left is not None:
+                    tree_queue.arrive(node.left)
+                if node.right is not None:
+                    tree_queue.arrive(node.right)
+
+    def villain_in_order(self):
+        def __villain_in_order(root):
+            if root is not None:
+                __villain_in_order(root.left)
+                if root.other_values["is_villain"] is True:
+                    print(root.value)
+                __villain_in_order(root.right)
+
+        if self.root is not None:
+            __villain_in_order(self.root)
+
+
+# arbol = BinaryTree()
+
+# arbol.insert('F', 'f')
+# arbol.insert('B', 'b')
+# arbol.insert('K', 'k')
+# arbol.insert('E', 'e')
+# arbol.insert('H', 'h')
+# arbol.insert('J', 'j')
+# arbol.insert('R', 'r')
+# arbol.insert('I', 'i')
+# arbol.insert('A', 'a')
+# # delete_value = arbol.delete('F')
+
+# # if delete_value is not None:
+# #     print(f'valor eliminado {delete_value}')
+# # else:
+# #     print('valor no encontrado')
+# # print()
+# arbol.by_level()
+
+
 # # arbol.insert(11)
 
 # # pos = arbol.search(19)
@@ -95,8 +168,9 @@ arbol = BinaryTree()
 # for super_hero in superheroes:
 #     arbol.insert(super_hero['name'], super_hero)
 
-# arbol.in_order()
+# arbol.villain_in_order()
 
+# print()
 # pos = arbol.search("Thanos")
 # if pos is not None:
-#     print(pos.other_values)
+#     print(pos.value, pos.other_values)
