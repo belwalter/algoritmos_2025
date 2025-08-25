@@ -78,7 +78,6 @@ class BinaryTree:
     def delete(self, value: Any):
         def __replace(root):
             if root.right is None:
-                print(f'valor para remplazar {root.value}')
                 return root.left, root
             else:
                 root.right, replace_node = __replace(root.right)
@@ -86,13 +85,15 @@ class BinaryTree:
 
         def __delete(root, value):
             delete_value = None
+            deleter_other_values = None
             if root is not None:
                 if value < root.value:
-                    root.left, delete_value = __delete(root.left, value)
+                    root.left, delete_value, deleter_other_values = __delete(root.left, value)
                 elif value > root.value:
-                    root.right, delete_value = __delete(root.right, value)
+                    root.right, delete_value, deleter_other_values = __delete(root.right, value)
                 else:
                     delete_value = root.value
+                    deleter_other_values = root.other_values
                     if root.left is None:
                         root = root.right
                     elif root.right is None:
@@ -102,14 +103,14 @@ class BinaryTree:
                         root.value = replace_node.value
                         root.other_values = replace_node.other_values
 
-            return root, delete_value
+            return root, delete_value, deleter_other_values
 
         delete_value =  None
+        deleter_other_values = None
         if self.root is not None:
-            self.root, delete_value = __delete(self.root, value)
-            print(self.root.value, delete_value)
+            self.root, delete_value, deleter_other_values = __delete(self.root, value)
         
-        return delete_value
+        return delete_value, deleter_other_values
     
     def by_level(self):
         tree_queue = Queue()
@@ -136,17 +137,30 @@ class BinaryTree:
             __villain_in_order(self.root)
 
 
-# arbol = BinaryTree()
+arbol = BinaryTree()
 
-# arbol.insert('F', 'f')
-# arbol.insert('B', 'b')
-# arbol.insert('K', 'k')
-# arbol.insert('E', 'e')
-# arbol.insert('H', 'h')
-# arbol.insert('J', 'j')
-# arbol.insert('R', 'r')
-# arbol.insert('I', 'i')
-# arbol.insert('A', 'a')
+arbol.insert('F', 'f')
+arbol.insert('B', 'b')
+arbol.insert('K', 'k')
+arbol.insert('E', 'e')
+arbol.insert('H', 'h')
+arbol.insert('J', 'j')
+arbol.insert('R', 'r')
+arbol.insert('I', 'i')
+arbol.insert('A', 'a')
+
+
+# pos = arbol.search('F')
+# if pos is not None:
+#     arbol.delete('F')
+#     arbol.insert('C', 'c')
+
+delete_value, deleter_other_values = arbol.delete('K')
+if delete_value is not None:
+    print(delete_value, deleter_other_values)
+
+
+# arbol.in_order()
 # # delete_value = arbol.delete('F')
 
 # # if delete_value is not None:
