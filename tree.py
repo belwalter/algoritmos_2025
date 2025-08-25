@@ -57,9 +57,6 @@ class BinaryTree:
         if self.root is not None:
             __post_order(self.root)
 
-    def by_level(self):
-        pass
-
     def search(self, value: Any) -> __nodeTree:
         def __search(root, value):
             if root is not None:
