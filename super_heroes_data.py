@@ -289,10 +289,10 @@ superheroes = [
         "is_villain": True
     },
     {
-        "name": "Dr Strange",
+        "name": "Dr Strannnnnge",
         "alias": "Dr Strange",
         "real_name": "Stephen Strange",
-        "short_bio": "Once a brilliant but arrogant surgeon, he became the Sorcerer Supreme and protector of Earth from magical threats.",
+        "short_bio": "Once a brilprintliant but arrogant surgeon, he became the Sorcerer Supreme and protector of Earth from magical threats.",
         "first_appearance": 1963,
         "is_villain": False
     },
@@ -910,9 +910,9 @@ superheroes = [
         "real_name": "Hank Pym",
         "short_bio": "A brilliant scientist who can shrink in size and has multiple superhero identities.",
         "first_appearance": 1963,
-        "is_villain": False
+        "is_villain": True
     },
 ]
 
 
-print(len (superheroes))
+# print(len (superheroes))
