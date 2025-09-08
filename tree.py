@@ -10,7 +10,7 @@ class BinaryTree:
             self.other_values = other_values
             self.left = None
             self.right = None
-            self.altura = 0
+            self.hight = 0
 
     def __init__(self):
         self.root = None
@@ -24,7 +24,8 @@ class BinaryTree:
             else:
                 root.right = __insert(root.right, value, other_values)
 
-            self.update_altura(root)
+            root = self.auto_balance(root)
+            self.update_hight(root)
 
             return root
 
@@ -33,7 +34,7 @@ class BinaryTree:
     def pre_order(self):
         def __pre_order(root):
             if root is not None:
-                print(root.value, root.other_values, root.altura)
+                print(root.value, root.other_values, root.hight)
                 __pre_order(root.left)
                 __pre_order(root.right)
 
@@ -118,6 +119,8 @@ class BinaryTree:
                         root.value = replace_node.value
                         root.other_values = replace_node.other_values
 
+                root = self.auto_balance(root)
+                self.update_hight(root)
             return root, delete_value, deleter_other_values
 
         delete_value =  None
@@ -140,17 +143,60 @@ class BinaryTree:
                 if node.right is not None:
                     tree_queue.arrive(node.right)
 
-    def altura(self, root):
+    def hight(self, root):
         if root is None:
             return -1
         else:
-            return root.altura
+            return root.hight
 
-    def update_altura(self, root):
+    def update_hight(self, root):
         if root is not None:
-            alt_left = self.altura(root.left)
-            alt_right = self.altura(root.right)
-            root.altura = max(alt_left, alt_right) + 1
+            alt_left = self.hight(root.left)
+            alt_right = self.hight(root.right)
+            root.hight = max(alt_left, alt_right) + 1
+
+    def simple_rotation(self, root, control):
+        if control: # RS Right
+            aux = root.left
+            root.left = aux.right
+            aux.right = root
+        else: # RS Left
+            aux = root.right
+            root.right = aux.left
+            aux.left = root
+
+        self.update_hight(root)
+        self.update_hight(aux)
+        root = aux
+        return root
+
+    def double_rotation(self, root, control):
+        if control: # RD Right
+            root.left = self.simple_rotation(root.left, False)
+            root = self.simple_rotation(root, True)
+        else:
+            root.right = self.simple_rotation(root.right, True)
+            root = self.simple_rotation(root, False)
+        
+        return root
+
+    def auto_balance(self, root):
+        if root is not None:
+            if self.hight(root.left) - self.hight(root.right) == 2:
+                if self.hight(root.left.left) >= self.hight(root.left.right):
+                    # print("RS RIGHT")
+                    root = self.simple_rotation(root, True)
+                else:
+                    # print("RD RIGHT")
+                    root = self.double_rotation(root, True)
+            if self.hight(root.right) - self.hight(root.left) == 2:
+                if self.hight(root.right.right) >= self.hight(root.right.left):
+                    # print("RS LEFT")
+                    root = self.simple_rotation(root, False)
+                else:
+                    # print("RD LEFT")
+                    root = self.double_rotation(root, False)
+        return root
 
     def villain_in_order(self):
         def __villain_in_order(root):
@@ -201,11 +247,11 @@ arbol_villanos = BinaryTree()
 
 
 # print()K
-# arbol.update_altura(arbol.root.left.left)
+# arbol.update_hight(arbol.root.left.left)
 # print()
-# arbol.update_altura(arbol.root.left)
+# arbol.update_hight(arbol.root.left)
 # print()
-# arbol.update_altura(arbol.root)
+# arbol.update_hight(arbol.root)
 # print()
 # arbol.pre_order()
 
@@ -215,14 +261,16 @@ arbol_villanos = BinaryTree()
 # arbol.insert('H', 'h')
 # arbol.insert('J', 'j')
 # arbol.insert('E', 'e')
-# arbol.insert('R', 'r')
-# arbol.insert('I', 'i')
-# arbol.insert('A', 'a')
+# arbol.insert('B')
+# arbol.insert('V')
 # arbol.pre_order()
+# print()
 
+for i in range(1, 16):
+    arbol.insert(i)
 
+arbol.pre_order()
 
-# pos = arbol.search('F')
 # if pos is not None:
 #     arbol.delete('F')
 #     arbol.insert('C', 'c')
@@ -249,19 +297,19 @@ arbol_villanos = BinaryTree()
 # # print(pos)
 # arbol.in_order()
 
-from super_heroes_data import superheroes
+# from super_heroes_data import superheroes
 
-for super_hero in superheroes:
-    arbol.insert(super_hero['name'], super_hero)
+# for super_hero in superheroes:
+#     arbol.insert(super_hero['name'], super_hero)
 
 
-arbol.divide_tree(arbol_heroes, arbol_villanos)
+# arbol.divide_tree(arbol_heroes, arbol_villanos)
 
-bosque = [arbol_heroes, arbol_villanos]
+# bosque = [arbol_heroes, arbol_villanos]
 
-for tree in bosque:
-    tree.in_order()
-    print()
+# for tree in bosque:
+#     tree.in_order()
+#     print()
 
 # arbol.proximity_search('Dr')
 # name = input('ingrese nombre para modificar: ')
