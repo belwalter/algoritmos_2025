@@ -40,6 +40,8 @@ if pos is not None:
     pos.other_values['weight'] = 115
     pos.other_values['height'] = 71
 
+    
+
 value, other_values = star_wars_tree_name.delete('Mando')
 if value is not None:
     new_value = 'Din Djarin'
