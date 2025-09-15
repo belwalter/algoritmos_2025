@@ -45,7 +45,7 @@ class BinaryTree:
         def __in_order(root):
             if root is not None:
                 __in_order(root.left)
-                print(root.value)
+                print(root.value, root.other_values)
                 __in_order(root.right)
 
         if self.root is not None:
@@ -238,6 +238,28 @@ class BinaryTree:
 
 
         __divide_tree(self.root, arbol_h, arbol_v)
+    
+    def in_order_height(self):
+        def __in_order_height(root):
+            if root is not None:
+                __in_order_height(root.left)
+                if root.other_values['height'] > 100:
+                    print(root.value, root.other_values['height'])
+                __in_order_height(root.right)
+
+        if self.root is not None:
+            __in_order_height(self.root)
+    
+    def in_order_weight(self):
+        def __in_order_weight(root):
+            if root is not None:
+                __in_order_weight(root.left)
+                if root.other_values['weight'] < 75:
+                    print(root.value, root.other_values['weight'])
+                __in_order_weight(root.right)
+
+        if self.root is not None:
+            __in_order_weight(self.root)
 
 arbol = BinaryTree()
 arbol_heroes = BinaryTree()
@@ -266,10 +288,11 @@ arbol_villanos = BinaryTree()
 # arbol.pre_order()
 # print()
 
-for i in range(1, 16):
-    arbol.insert(i)
 
-arbol.pre_order()
+# for i in range(1, 16):
+#     arbol.insert(i)
+
+# arbol.pre_order()
 
 # if pos is not None:
 #     arbol.delete('F')
