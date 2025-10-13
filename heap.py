@@ -143,17 +143,17 @@ class HeapMin:
 # while priority_queue.size() > 0:
 #     print(priority_queue.attention())
 
-h = HeapMin()
-h.add(19)
-h.add(5)
-h.add(1)
-h.add(3)
-h.add(9)
+# h = HeapMin()
+# h.add(19)
+# h.add(5)
+# h.add(1)
+# h.add(3)
+# h.add(9)
 
 
-list_sort = h.heapsort()
+# list_sort = h.heapsort()
 
-print(list_sort)
+# print(list_sort)
 # print(h.elements)
 
 
