@@ -65,7 +65,30 @@ print()
 # puntos d
 star_wars_tree_name.in_order_height()
 print()
+a = BinaryTree()
 
+
+a.insert('tifon', {'derrotado_por': 'zeus'})
+a.insert('medusa', {'derrotado_por': 'perseo'})
+a.insert('hidra de lerna', {'derrotado_por': 'heracles'})
+a.insert('leon de nimea', {'derrotado_por': 'heracles'})
+a.insert('hidra de lerna', {'derrotado_por': 'heracles'})
+a.insert('leon de nimea', {'derrotado_por': 'heracles'})
+a.insert('sirenas', {'derrotado_por': 'aquiles'})
+a.insert('sirenas', {'derrotado_por': 'aquiles'})
+a.insert('medusa', {'derrotado_por': 'zeus'})
+
+
+ranking_result = {}
+a.ranking(ranking_result)
+
+
+def ordenar_ranking(item):
+    return item[1]
+
+list_ranking = list(ranking_result.items())
+list_ranking.sort(key=ordenar_ranking, reverse=True)
+print(list_ranking[:3])
 # punto e
 star_wars_tree_name.in_order_weight()
 print()
@@ -75,3 +98,29 @@ print()
 
 star_wars_tree_id.in_order()
 print()
+
+
+a = BinaryTree()
+
+
+a.insert('tifon', {'derrotado_por': 'zeus'})
+a.insert('medusa', {'derrotado_por': 'perseo'})
+a.insert('hidra de lerna', {'derrotado_por': 'heracles'})
+a.insert('leon de nimea', {'derrotado_por': 'heracles'})
+a.insert('hidra de lerna', {'derrotado_por': 'heracles'})
+a.insert('leon de nimea', {'derrotado_por': 'heracles'})
+a.insert('sirenas', {'derrotado_por': 'aquiles'})
+a.insert('sirenas', {'derrotado_por': 'aquiles'})
+a.insert('medusa', {'derrotado_por': 'zeus'})
+
+
+ranking_result = {}
+a.ranking(ranking_result)
+
+
+def ordenar_ranking(item):
+    return item[1]
+
+list_ranking = list(ranking_result.items())
+list_ranking.sort(key=ordenar_ranking, reverse=True)
+print(list_ranking[:3])
