@@ -1,6 +1,9 @@
 from typing import Any, Optional
 
+from heap import HeapMin
 from list_ import List
+from queue_ import Queue
+from stack import Stack
 
 class Graph(List):
 
@@ -109,32 +112,92 @@ class Graph(List):
         self.mark_as_unvisited()
         __deep_sweep(self, value)
         
+    def amplitude_sweep(self, value)-> None:
+        queue_vertex = Queue()
+        self.mark_as_unvisited()
+        vertex_pos = self.search(value, 'value')
+        if vertex_pos is not None:
+            if not self[vertex_pos].visited:
+                self[vertex_pos].visited = True
+                queue_vertex.arrive(self[vertex_pos])
+                while queue_vertex.size() > 0:
+                    vertex = queue_vertex.attention()
+                    print(vertex.value)
+                    for edge in vertex.edges:
+                        destination_edge_pos = self.search(edge.value, 'value')
+                        if destination_edge_pos is not None:
+                            if not self[destination_edge_pos].visited:
+                                self[destination_edge_pos].visited = True
+                                queue_vertex.arrive(self[destination_edge_pos])
+
+    def dijkstra(self, origin):
+        from math import inf
+        no_visited = HeapMin()
+        path = Stack()
+        for vertex in self:
+            distance = 0 if vertex.value == origin else inf
+            no_visited.arrive([vertex.value, vertex, None], distance)
+        # for element in no_visited.elements:
+        #     print(element)
+        while no_visited.size() > 0:
+            value = no_visited.attention()
+            costo_nodo_actual = value[0]
+            path.push([value[1][0], costo_nodo_actual, value[1][2]])
+            edges = value[1][1].edges
+            # print('value', value)
+            # print(costo_nodo_actual)
+            # print()
+            for edge in edges:
+                pos = no_visited.search(edge.value)
+                if pos is not None:
+                    # print(edge.value, edge.weight, no_visited.elements[pos][0], 'anterior', no_visited.elements[pos][1][2])
+                    if pos is not None:
+                        if costo_nodo_actual + edge.weight < no_visited.elements[pos][0]:
+                            no_visited.elements[pos][1][2] = value[1][0]
+                            no_visited.change_priority(pos, costo_nodo_actual + edge.weight)
+        return path
 
 
-g = Graph()
 
-g.insert_vertex('A')
-g.insert_vertex('I')
-g.insert_vertex('B')
+g = Graph(is_directed=True)
+
+g.insert_vertex('T')
+g.insert_vertex('F')
+g.insert_vertex('R')
+g.insert_vertex('X')
 g.insert_vertex('Z')
-g.insert_vertex('G')
 
-g.insert_edge('A', 'Z', 14)
-g.insert_edge('A', 'G', 4)
-g.insert_edge('I', 'A', 20)
-g.insert_edge('A', 'B', 7)
-g.insert_edge('B', 'Z', 144)
-g.insert_edge('B', 'A', 40)
-g.insert_edge('G', 'A', 24)
-# g.insert_edge('B', 'I', 11)
+g.insert_edge('T', 'X', 6)
+g.insert_edge('T', 'F', 3)
+g.insert_edge('T', 'R', 8)
+g.insert_edge('F', 'X', 2)
+g.insert_edge('F', 'R', 2)
+g.insert_edge('R', 'X', 5)
+g.insert_edge('R', 'Z', 4)
+g.insert_edge('X', 'Z', 9)
 
 g.show()
 print()
 
+path = g.dijkstra('Z')
+destination = 'T'
+peso_total = None
+camino_completo = []
+
+while path.size() > 0:
+    value = path.pop()
+    if value[0] == destination:
+        if peso_total is None:
+            peso_total = value[1]
+        camino_completo.append(value[0])
+        destination = val = value[2]
+camino_completo.reverse()
+print(f'el camino mas corto es: {'-'.join(camino_completo)} con un costo de {peso_total}')
+
 # vertex = g.delete_vertex('A', 'value')
 # print(f'deleted vertex: {vertex}')
 
-g.deep_sweep('A')
+# g.amplitude_sweep('A')
 
 # print()
 # for vertex in g:

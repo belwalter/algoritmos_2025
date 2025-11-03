@@ -77,6 +77,11 @@ class HeapMin:
         self.elements.append(value)
         self.float(self.size()-1)
     
+    def search(self, value):
+        for index, element in enumerate(self.elements):
+            if element[1][0] == value:
+                return index
+
     def remove(self) -> Any:
         last = self.size() -1
         self.interchange(0, last)
@@ -128,6 +133,15 @@ class HeapMin:
     def attention(self) -> Any:
         value = self.remove()
         return value
+
+    def change_priority(self, index, new_priority):
+        if index < len(self.elements):
+            previous_priority = self.elements[index][0]
+            self.elements[index][0] = new_priority
+            if new_priority > previous_priority:
+                self.sink(index)
+            elif new_priority < previous_priority:
+                self.float(index)
 
 # priority_queue = HeapMin()
 
